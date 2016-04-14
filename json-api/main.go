@@ -8,10 +8,10 @@ import (
 )
 
 type Record struct {
-	id      string `json:"id"`
-	domain  string `json:"domain"`
-	name    string `json:"name"`
-	address string `json:"address"`
+	Id      string `json:"id"`
+	Domain  string `json:"domain"`
+	Name    string `json:"name"`
+	Address string `json:"address"`
 }
 
 type Records []Record
@@ -31,13 +31,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func RecordIndex(w http.ResponseWriter, r *http.Request) {
 	records := Records{
-		Record{id: "1", domain: "web.com", name: "A", address: "192.62.1.1"},
-		Record{id: "2", domain: "web.com", name: "CNAME", address: "192.62.1.1"},
+		Record{Id: "1", Domain: "web.com", Name: "A", Address: "192.62.1.1"},
+		Record{Id: "2", Domain: "web.com", Name: "CNAME", Address: "192.62.1.1"},
 	}
 
 	json.NewEncoder(w).Encode(records)
 }
 
 func RecordShow(w http.ResponseWriter, r *http.Request) {
+	// not sure how to identify /records/:id yet
 	fmt.Fprintln(w, "RecordShow!")
 }
