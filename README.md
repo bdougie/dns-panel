@@ -8,12 +8,12 @@ $ go run json-api/main.go
 
 ## Server Testing
 ```
-% go test ./...
+$ go test ./...
 ```
 
 ## TODO
 
-- [ ] Create DnsRecord Struct
+- [ ] Create DNS Record Struct
 - [ ] Create/Connect a DB to the API
-- [ ] Server Sample DnsRecords
+- [ ] Serve up Sample Records on `/records`
 
