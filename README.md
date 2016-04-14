@@ -13,7 +13,7 @@ $ go run json-api/main.go
 
 ## TODO
 
-- [ ] Create DnsRecord Struct
+- [x] Create DnsRecord Struct
+- [x] Server Sample DnsRecords
 - [ ] Create/Connect a DB to the API
-- [ ] Server Sample DnsRecords
-
+- [ ] Create sample React app for the sample data so far
