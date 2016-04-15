@@ -9,7 +9,7 @@ function ensureAbsoluteUrl(apiRoot, path) {
 }
 
 export default function fetch(input, options) {
-  const apiRoot = 'http://localhost:3130/'
+  const apiRoot = 'http://localhost:3130'
   const path = ensureAbsoluteUrl(apiRoot, input)
 
   return isomorphicFetch(path, options).then((r) => r.json())

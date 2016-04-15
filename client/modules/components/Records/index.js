@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import Title from 'react-title-component'
-import {records} from '../api/handler.js'
+import {records} from '../../api/handler.js'
+import {createContainer} from 'react-transmit'
 
 class Records extends Component {
   static propTypes = {
     records: PropTypes.array
-  };
+  }
 
   render() {
     return (
@@ -17,7 +18,7 @@ class Records extends Component {
   }
 
   renderRecords() {
-    const { records } = this.props;
+    const {records} = this.props
 
     return (
       <ul>
@@ -27,18 +28,13 @@ class Records extends Component {
           </li>
         )}
       </ul>
-    );
+    )
   }
 }
 
-export default Transmit.createContainer(Browse, {
-  // For some reason you need this here or it doesn't render correctly
-  initialVariables: {
-  },
-
+export default createContainer(Records, {
+  initialVariables: {},
   fragments: {
-    records() {
-      return records().then(data => data);
-    }
-  }
-});
+    records: () => records().then(res => res),
+  },
+})
