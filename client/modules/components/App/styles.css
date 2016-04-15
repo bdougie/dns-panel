@@ -1,0 +1,32 @@
+.children {
+  padding: 60px;
+  min-height: 400px;
+  text-align: center;
+}
+
+.container {
+  background-color: #DCDCDC;
+  text-decoration: none;
+}
+
+.hero {
+  background-color: #48BBEC;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.navbar {
+  background-color: #DCDCDC;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.navItem {
+  color: #4D4D4D;
+  padding-right: 10px;
+  text-decoration: none;
+}
+
+.page {
+  background: white;
+}

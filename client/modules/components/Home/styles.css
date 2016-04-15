@@ -1,0 +1,15 @@
+.comment {
+  font-style: italic;
+  font-size: 24px;
+}
+
+.home {
+  padding: 0 10px;
+}
+
+.link {
+  color: #48BBEC;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
