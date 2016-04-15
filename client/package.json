@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "0.9.1",
     "babel-cli": "6.5.1",
     "babel-core": "6.5.1",
     "babel-eslint": "4.1.8",
