@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
 )
@@ -16,29 +17,30 @@ type Record struct {
 
 type Records []Record
 
+var records = Records{
+	Record{Id: "1", Domain: "web.com", Name: "A", Address: "192.62.1.1"},
+	Record{Id: "2", Domain: "web.com", Name: "CNAME", Address: "192.62.1.1"},
+}
+
 func main() {
 	port := ":3130"
-	http.HandleFunc("/", Index)
-	http.HandleFunc("/records", RecordIndex)
-	http.HandleFunc("/records/{recordId}", RecordShow)
+	router := httprouter.New()
+
+	router.GET("/", Index)
+	router.GET("/records", RecordIndex)
+	// router.GET("/records/:name", RecordShow)
 
 	log.Fatal(http.ListenAndServe(port, nil))
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Hola Mundo!")
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "Welcome!\n")
 }
 
-func RecordIndex(w http.ResponseWriter, r *http.Request) {
-	records := Records{
-		Record{Id: "1", Domain: "web.com", Name: "A", Address: "192.62.1.1"},
-		Record{Id: "2", Domain: "web.com", Name: "CNAME", Address: "192.62.1.1"},
-	}
-
+func RecordIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	json.NewEncoder(w).Encode(records)
 }
 
-func RecordShow(w http.ResponseWriter, r *http.Request) {
-	// not sure how to identify /records/:id yet
-	fmt.Fprintln(w, "RecordShow!")
+func RecordShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
 }

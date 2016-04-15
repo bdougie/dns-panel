@@ -14,7 +14,7 @@ func TestGet200(t *testing.T) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		t.Errorf("Success expected: %d", res.StatusCode)
+		t.Errorf("Success was expected but got %d", res.StatusCode)
 	}
 }
 
@@ -27,7 +27,7 @@ func TestGet200ForRecordsRoute(t *testing.T) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		t.Errorf("Success expected: %d", res.StatusCode)
+		t.Errorf("Success was expected but got %d", res.StatusCode)
 	}
 }
 
@@ -42,6 +42,6 @@ func TestGet200ForRecordShowRoute(t *testing.T) {
 	}
 
 	if res.StatusCode != http.StatusOK {
-		t.Errorf("Success expected: %d", res.StatusCode)
+		t.Errorf("Success was expected but got %d", res.StatusCode)
 	}
 }
