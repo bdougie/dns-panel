@@ -6,7 +6,7 @@ export default React.createClass({
     return (
       <div>
         <Title render={prev => `${prev} | Home`}/>
-        <p>Home!</p>
+        <p>This is the Home Route</p>
       </div>
     )
   }

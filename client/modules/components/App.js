@@ -10,8 +10,7 @@ export default React.createClass({
         <h1>Special DNS Panel</h1>
         <ul>
           <li><IndexLink to="/">Home</IndexLink></li>
-          <li><Link to="/dragon">A DRAGON!</Link></li>
-          <li><Link to="/not-dragon">An old URL to a DRAGON!</Link></li>
+          <li><Link to="/records">View Records</Link></li>
         </ul>
         {this.props.children}
       </div>
