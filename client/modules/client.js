@@ -1,4 +1,4 @@
-import {render} from 'react-transmit'
+import { render } from 'react-transmit'
 import { Router, browserHistory } from 'react-router'
 import routes from '../modules/routes'
 
