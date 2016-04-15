@@ -1,8 +1,8 @@
-import React, { Component, Proptypes } from 'react'
+import React, {Component, PropTypes} from 'react'
 import Title from 'react-title-component'
-import { records } from '../api/handler.js'
+import {records} from '../api/handler.js'
 
-export default React extends Component {
+class Records extends Component {
   static propTypes = {
     records: PropTypes.array
   };
