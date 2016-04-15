@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"html"
 	"log"
 	"net/http"
@@ -33,14 +34,17 @@ func main() {
 	router.HandleFunc("/records/{Id}", RecordShow)
 	http.Handle("/", router)
 
-	log.Fatal(http.ListenAndServe(port, nil))
+	handler := cors.Default().Handler(router)
+	log.Fatal(http.ListenAndServe(port, handler))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	setCors(w)
 	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
 }
 
 func RecordIndex(w http.ResponseWriter, r *http.Request) {
+	setCors(w)
 	json.NewEncoder(w).Encode(records)
 }
 
@@ -53,8 +57,6 @@ func RecordShow(w http.ResponseWriter, r *http.Request) {
 }
 
 func filter(id string) Record {
-	// string to int conversion, this could be better
-	// Better there is probably a
 	recordId, err := strconv.Atoi(id)
 
 	if err != nil {
@@ -64,4 +66,10 @@ func filter(id string) Record {
 	position := recordId - 1
 
 	return records[position]
+}
+
+func setCors(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
 }
