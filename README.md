@@ -1,19 +1,22 @@
 # DNS PANEL
 
+## Client
+
+```bash
+$ npm start
+$ npm test
+```
+
 ## Server
 
-```
-$ go run json-api/main.go 
-```
-
-## Server Testing
-```
-$ go test ./...
+```bash
+$ go run json-api/main.go
+$ go test ./... 
 ```
 
 ## TODO
 
 - [x] Create DnsRecord Struct
 - [x] Server Sample DnsRecords
-- [ ] Create/Connect a DB to the API
 - [ ] Create sample React app for the sample data so far
+- [ ] Create/Connect a DB to the API
