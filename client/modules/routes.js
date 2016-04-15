@@ -1,7 +1,6 @@
 import '../modules/styles.css'
 import React from 'react'
 import { Route, IndexRoute, Redirect } from 'react-router'
-import hello from './api/hello'
 import App from './components/App'
 import Home from './components/Home'
 import NoMatch from './components/NoMatch'
