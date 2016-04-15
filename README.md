@@ -20,3 +20,5 @@ $ go test ./...
 - [x] Server Sample DnsRecords
 - [ ] Create sample React app for the sample data so far
 - [ ] Create/Connect a DB to the API
+
+![example](http://imgur.com/X65oHg3)
