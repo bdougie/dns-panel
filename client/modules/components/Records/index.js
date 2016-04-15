@@ -1,11 +1,16 @@
 import React, {Component, PropTypes} from 'react'
 import Title from 'react-title-component'
-import {records} from '../../api/handler.js'
-import {createContainer} from 'react-transmit'
+import http from 'http'
+import {resolve} from 'react-resolver'
 
-class Records extends Component {
+@resolve('records', () => {
+  // records are returning empty
+  return http.get('http://localhost:3130/records')
+})
+
+export default class Records extends Component {
   static propTypes = {
-    records: PropTypes.array
+    records: PropTypes.object
   }
 
   render() {
@@ -13,6 +18,7 @@ class Records extends Component {
       <div>
         <Title render={prev => `${prev} | Records!`}/>
         <p>Records will go here</p>
+        {this.renderRecords}
       </div>
     )
   }
@@ -32,9 +38,3 @@ class Records extends Component {
   }
 }
 
-export default createContainer(Records, {
-  initialVariables: {},
-  fragments: {
-    records: () => records().then(res => res),
-  },
-})
