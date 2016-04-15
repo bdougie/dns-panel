@@ -8,7 +8,7 @@ $ go run json-api/main.go
 
 ## Server Testing
 ```
-% go test ./...
+$ go test ./...
 ```
 
 ## TODO
