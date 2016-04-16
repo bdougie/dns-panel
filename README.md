@@ -21,4 +21,4 @@ $ go test ./...
 - [ ] Create sample React app for the sample data so far
 - [ ] Create/Connect a DB to the API
 
-![example](http://imgur.com/X65oHg3)
+![scrennshot](http://i.imgur.com/X65oHg3l.png)
