@@ -10,7 +10,7 @@ $ npm test
 ## Server
 
 ```bash
-$ go run json-api/main.go
+$ go run json-api/!(*_test).go
 $ go test ./... 
 ```
 
