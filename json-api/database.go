@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"encoding/gob"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -39,7 +37,7 @@ func (r *Record) save() error {
 		return fmt.Errorf("db must be opened before saving!")
 	}
 	err := db.Update(func(tx *bolt.Tx) error {
-		people, err := tx.CreateBucketIfNotExists([]byte("people"))
+		records, err := tx.CreateBucketIfNotExists([]byte("records"))
 		if err != nil {
 			return fmt.Errorf("create bucket: %s", err)
 		}
@@ -47,31 +45,10 @@ func (r *Record) save() error {
 		if err != nil {
 			return fmt.Errorf("could not encode Record %s: %s", r.ID, err)
 		}
-		err = people.Put([]byte(r.ID), enc)
+		err = records.Put([]byte(r.ID), enc)
 		return err
 	})
 	return err
-}
-
-func (r *Record) gobEncode() ([]byte, error) {
-	buf := new(bytes.Buffer)
-	enc := gob.NewEncoder(buf)
-	err := enc.Encode(r)
-	if err != nil {
-		return nil, err
-	}
-	return buf.Bytes(), nil
-}
-
-func gobDecode(data []byte) (*Record, error) {
-	var r *Record
-	buf := bytes.NewBuffer(data)
-	dec := gob.NewDecoder(buf)
-	err := dec.Decode(&r)
-	if err != nil {
-		return nil, err
-	}
-	return r, nil
 }
 
 func (r *Record) encode() ([]byte, error) {
@@ -91,16 +68,30 @@ func decode(data []byte) (*Record, error) {
 	return r, nil
 }
 
+func seedDB() {
+	Data := Records{
+		Record{ID: "1", Domain: "web.com", Name: "A", Address: "192.62.1.1"},
+		Record{ID: "2", Domain: "da-web.com", Name: "MX", Address: "172.42.1.1"},
+		Record{ID: "3", Domain: "internetweb.com", Name: "CNAME", Address: "196.52.1.1"},
+		Record{ID: "4", Domain: "google.com", Name: "CNAME", Address: "192.63.1.1"},
+	}
+
+	// Persist Records in the Database
+	for _, r := range Data {
+		r.save()
+	}
+}
+
 func GetRecord(id string) (*Record, error) {
 	if !open {
-		return nil, fmt.Errorf("db must be opened before saving!")
+		return nil, fmt.Errorf("db must be opened before fetching!")
 	}
 	var r *Record
 	err := db.View(func(tx *bolt.Tx) error {
 		var err error
 		b := tx.Bucket([]byte("records"))
 		k := []byte(id)
-		r, err = decode(b.Get(k))
+		r, _ = decode(b.Get(k))
 		if err != nil {
 			return err
 		}
@@ -113,35 +104,35 @@ func GetRecord(id string) (*Record, error) {
 	return r, nil
 }
 
-func List(bucket string) {
-	db.View(func(tx *bolt.Tx) error {
-		c := tx.Bucket([]byte(bucket)).Cursor()
-		for k, v := c.First(); k != nil; k, v = c.Next() {
-			fmt.Printf("key=%s, value=%s\n", k, v)
-		}
+func AllRecords() ([]*Record, error) {
+	if !open {
+		return nil, fmt.Errorf("db must be opened before fetching!")
+	}
+
+	records := []*Record{}
+	err := db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("records"))
+		b.ForEach(func(k, v []byte) error {
+			r, err := decode(b.Get(k))
+
+			records = append(records, r)
+			if err != nil {
+				return err
+			}
+
+			return nil
+		})
+
 		return nil
 	})
+
+	if err != nil {
+		fmt.Println("Could not get Records")
+		return nil, err
+	}
+	return records, nil
 }
 
-func ListPrefix(bucket, prefix string) {
-	db.View(func(tx *bolt.Tx) error {
-		c := tx.Bucket([]byte(bucket)).Cursor()
-		p := []byte(prefix)
-		for k, v := c.Seek(p); bytes.HasPrefix(k, p); k, v = c.Next() {
-			fmt.Printf("key=%s, value=%s\n", k, v)
-		}
-		return nil
-	})
-}
-
-func ListRange(bucket, start, stop string) {
-	db.View(func(tx *bolt.Tx) error {
-		c := tx.Bucket([]byte(bucket)).Cursor()
-		min := []byte(start)
-		max := []byte(stop)
-		for k, v := c.Seek(min); k != nil && bytes.Compare(k, max) <= 0; k, v = c.Next() {
-			fmt.Printf("%s: %s\n", k, v)
-		}
-		return nil
-	})
+func init() {
+	seedDB()
 }

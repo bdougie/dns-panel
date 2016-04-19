@@ -9,6 +9,8 @@ import (
 	"strconv"
 )
 
+var records []*Record
+
 func Index(w http.ResponseWriter, r *http.Request) {
 	setCors(w)
 	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
@@ -27,7 +29,7 @@ func RecordShow(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(record)
 }
 
-func filter(id string) Record {
+func filter(id string) *Record {
 	recordID, err := strconv.Atoi(id)
 
 	if err != nil {
@@ -43,4 +45,10 @@ func setCors(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token")
 	w.Header().Set("Access-Control-Allow-Credentials", "true")
+}
+
+func init() {
+	Open()        // init DB
+	defer Close() // close DB when done
+	records, _ = AllRecords()
 }
