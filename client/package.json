@@ -12,7 +12,8 @@
     "start": "if-env NODE_ENV=production && npm run react-project:start:prod || npm run react-project:start:dev",
     "test": "karma start",
     "react-project:start:dev": "eslint modules && react-project start",
-    "react-project:start:prod": "rm -rf .build && react-project build && node .build/server.js"
+    "react-project:start:prod": "rm -rf .build && react-project build && node .build/server.js",
+		"server": "go run ../json-api/main.go"
   },
   "author": "",
   "license": "ISC",
