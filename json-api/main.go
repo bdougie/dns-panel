@@ -1,8 +1,12 @@
 package main
 
-func main() {
-	Open()        // init DB
-	defer Close() // close DB when done
+import (
+	"brian-dns-panel/json-api/lib"
+)
 
-	StartSever()
+func main() {
+	lib.Open()        // init DB
+	defer lib.Close() // close DB when done
+
+	lib.StartSever()
 }
